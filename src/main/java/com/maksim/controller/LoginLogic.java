@@ -1,68 +1,53 @@
 package com.maksim.controller;
 
-import com.maksim.controller.manager.ConfigurationManager;
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
+import com.maksim.domain.User;
+import com.maksim.model.connection.DBConnection;
+import com.maksim.model.impl.UserDaoImpl;
 
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
-/**
- * Created by Максим on 04/Feb/18.
- */
+
 public class LoginLogic {
-    public static boolean checkLogin(
-            String login, String password) {
+    public static boolean checkLogin(String login, String password) {
 
+        // defining the dao object
+        UserDaoImpl dao = new UserDaoImpl();
+
+        // getting the connection from DBUtils
+        final Connection connection = DBConnection.getConnection();
+
+        String sql_query = "SELECT USERID, FULLNAME, ADDRESS FROM USERS WHERE LOGIN = ? AND PASSWORD = ?";
+
+        User user = null;
 // проверка логина и пароля
         try {
 
-//организация простейшего соединения с базой данных
-            String driver = ConfigurationManager.getInstance()
-                    .getProperty(ConfigurationManager.DATABASE_DRIVER_NAME);
 
-            Class.forName(driver);
-            Connection cn = null;
-            try {
+            PreparedStatement statament = connection.prepareStatement(sql_query);
 
-                String url = ConfigurationManager.getInstance()
-                        .getProperty(ConfigurationManager.DATABASE_URL);
-                cn = (Connection) DriverManager.getConnection(url);
-                PreparedStatement st = null;
-                try {
-                    st = (PreparedStatement) cn.prepareStatement(
-                            "SELECT * FROM USERS WHERE LOGIN = ? AND PASSWORD = ?");
-                    st.setString(1, login);
-                    st.setString(2, password);
-                    ResultSet rs = null;
-                    try {
-                        rs = st.executeQuery();
+            statament.setString(1, login);
+            statament.setString(2, password);
 
-/* проверка, существует ли пользователь
-с указанным логином и паролем */
+            // executing the query
+            ResultSet rs = statament.executeQuery();
+            return rs.next();
+//            while(rs.next()) {
+//
+//                // defining the UserDetails object
+//                user = new User();
+//
+//                // setting the all attributes to object from database
+//                user.setUserId(rs.getInt("userId"));
+//                user.setUserName(login);
+//                user.setFullName(rs.getString("fullName"));
+//                user.setAddress(rs.getString("address"));
+//                user.setValidUser(true);
+//
+//            }
 
-                        return rs.next();
-                    } finally {
-                        if (rs != null)
-                            rs.close();
+        } catch (Exception ex) {
 
-                    }
-                } finally {
-                    if (st != null)
-                        st.close();
-
-                }
-            } finally {
-                if (cn != null)
-                    cn.close();
-
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            System.out.println(ex.getMessage());
             return false;
         }
     }

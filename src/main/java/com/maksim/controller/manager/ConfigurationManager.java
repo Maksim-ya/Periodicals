@@ -10,11 +10,11 @@ public class ConfigurationManager {
     private ResourceBundle resourceBundle;
 //    класс извлекает информацию из файла config.properties
     private static final String BUNDLE_NAME = "config";
-    public static final String DATABASE_DRIVER_NAME =
-            "DATABASE_DRIVER_NAME";
-
-    public static final String DATABASE_URL =
-            "DATABASE_URL";
+//    public static final String DATABASE_DRIVER_NAME =
+//            "DATABASE_DRIVER_NAME";
+//
+//    public static final String DATABASE_URL =
+//            "DATABASE_URL";
     public static final String ERROR_PAGE_PATH =
             "ERROR_PAGE_PATH";
     public static final String LOGIN_PAGE_PATH =
