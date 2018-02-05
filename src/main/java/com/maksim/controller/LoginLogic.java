@@ -8,7 +8,7 @@ import java.sql.*;
 
 
 public class LoginLogic {
-    public static boolean checkLogin(String login, String password) {
+    public static User checkLogin(String login, String password) {
 
         // defining the dao object
         UserDaoImpl dao = new UserDaoImpl();
@@ -30,25 +30,25 @@ public class LoginLogic {
 
             // executing the query
             ResultSet rs = statament.executeQuery();
-            return rs.next();
-//            while(rs.next()) {
-//
-//                // defining the UserDetails object
-//                user = new User();
-//
-//                // setting the all attributes to object from database
-//                user.setUserId(rs.getInt("userId"));
-//                user.setUserName(login);
-//                user.setFullName(rs.getString("fullName"));
-//                user.setAddress(rs.getString("address"));
-//                user.setValidUser(true);
-//
-//            }
+//            return rs.next();
+            while(rs.next()) {
+
+                // defining the UserDetails object
+                user = new User();
+
+                // setting the all attributes to object from database
+                user.setUserId(rs.getInt("userId"));
+//                user.setLogin(login);
+                user.setFullName(rs.getString("fullName"));
+                user.setAddress(rs.getString("address"));
+                user.setValidUser(true);
+
+            }
 
         } catch (Exception ex) {
 
             System.out.println(ex.getMessage());
-            return false;
         }
+        return user;
     }
 }

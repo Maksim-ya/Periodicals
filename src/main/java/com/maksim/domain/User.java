@@ -24,12 +24,12 @@ public class User {
 		this.userId = userId;
 	}
 
-	public String getUserName() {
+	public String getLogin() {
 		return login;
 	}
 
-	public void setUserName(String userName) {
-		this.login= userName;
+	public void setLogin(String login) {
+		this.login= login;
 	}
 
 	public String getPassword() {

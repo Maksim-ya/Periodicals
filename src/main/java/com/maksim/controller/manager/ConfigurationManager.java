@@ -8,8 +8,8 @@ import java.util.ResourceBundle;
 public class ConfigurationManager {
     private static ConfigurationManager instance;
     private ResourceBundle resourceBundle;
-//    класс извлекает информацию из файла config.properties
-    private static final String BUNDLE_NAME = "config";
+//    класс извлекает информацию из файла pages.properties
+    private static final String BUNDLE_NAME = "pages";
 //    public static final String DATABASE_DRIVER_NAME =
 //            "DATABASE_DRIVER_NAME";
 //

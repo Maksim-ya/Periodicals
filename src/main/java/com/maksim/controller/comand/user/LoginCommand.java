@@ -4,6 +4,7 @@ import com.maksim.controller.LoginLogic;
 import com.maksim.controller.comand.Command;
 import com.maksim.controller.manager.ConfigurationManager;
 import com.maksim.controller.manager.MessageManager;
+import com.maksim.domain.User;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -22,10 +23,12 @@ public class LoginCommand implements Command{
 //извлечение из запроса логина и пароля
         String login = request.getParameter(PARAM_NAME_LOGIN);
         String pass = request.getParameter(PARAM_NAME_PASSWORD);
+        User user =LoginLogic.checkLogin(login, pass);
 //проверка логина и пароля
 
-        if (LoginLogic.checkLogin(login, pass)) {
-            request.setAttribute("user", login);
+        if (user !=null ) {
+            request.setAttribute("user",user);
+            request.setAttribute("name",user.getFullName());
 
 //определение пути к main.jsp
 

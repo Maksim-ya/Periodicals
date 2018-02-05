@@ -25,7 +25,7 @@ public class UserDaoImpl implements UserDAO {
         try {
             PreparedStatement ps = dbConnection.prepareStatement(
                     "INSERT INTO users (login, password,fullName, address) VALUES (?,?,?,?)");
-            ps.setString(1, user.getUserName());
+            ps.setString(1, user.getLogin());
             ps.setString(2, user.getPassword());
             ps.setString(3, user.getFullName());
             ps.setString(4, user.getAddress());
