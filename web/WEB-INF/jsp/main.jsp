@@ -1,4 +1,4 @@
-<%@ page import="com.maksim.domain.User" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: Максим
   Date: 04/Feb/18
@@ -30,6 +30,10 @@ charset=Utf-8" />
 <hr />
 <c:out value="${name}, Hello!"/>
 <hr />
-<a href="controller">Return to login page</a>
+<form action="controller">
+    <input type="hidden" name="command" value="logout" />
+    <br/>
+    <input type="submit" value="Logout">
+</form>
+<%--<a href="controller">Return to login page</a>--%>
 </body></html>
-<%--</jsp:root>--%>

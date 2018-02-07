@@ -14,7 +14,7 @@ import java.io.IOException;
 /**
  * Created by Максим on 15/Jan/18.
  */
-public class LoginCommand implements Command{
+public class LoginCommand implements Command {
     private static final String PARAM_NAME_LOGIN = "login";
     private static final String PARAM_NAME_PASSWORD = "password";
 
@@ -23,12 +23,12 @@ public class LoginCommand implements Command{
 //извлечение из запроса логина и пароля
         String login = request.getParameter(PARAM_NAME_LOGIN);
         String pass = request.getParameter(PARAM_NAME_PASSWORD);
-        User user =LoginLogic.checkLogin(login, pass);
+        User user = LoginLogic.checkLogin(login, pass);
 //проверка логина и пароля
 
-        if (user !=null ) {
-            request.setAttribute("user",user);
-            request.setAttribute("name",user.getFullName());
+        if (user != null) {
+            request.setAttribute("user", user);
+            request.setAttribute("name", user.getFullName());
 
 //определение пути к main.jsp
 
@@ -37,10 +37,7 @@ public class LoginCommand implements Command{
                     .getProperty(ConfigurationManager.MAIN_PAGE_PATH);
 
         } else {
-            request.setAttribute("errorMessage",
-
-                    MessageManager.getInstance()
-                            .getProperty(MessageManager.LOGIN_ERROR_MESSAGE));
+            request.setAttribute("errorMessage", MessageManager.getInstance().getProperty(MessageManager.LOGIN_ERROR_MESSAGE));
 
             page = ConfigurationManager.getInstance()
                     .getProperty(ConfigurationManager.ERROR_PAGE_PATH);
