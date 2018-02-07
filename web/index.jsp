@@ -15,10 +15,11 @@
   </body>
 </html>
 --%>
-
-  <jsp:directive.page contentType="text/html; charset=Utf-8"
-  />
-  <html><head><title>Index JSP</title></head>
-  <body>
-  <a href="controller">Main Controller</a>
-  </body></html>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<jsp:directive.page contentType="text/html; charset=Utf-8"/>--%>
+<html>
+<head><title>Index JSP</title></head>
+<body>
+<a href="application">Main Controller</a>
+</body>
+</html>

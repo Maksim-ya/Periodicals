@@ -30,7 +30,7 @@ charset=Utf-8" />
 <hr />
 <c:out value="${name}, Hello!"/>
 <hr />
-<form action="controller">
+<form action="application">
     <input type="hidden" name="command" value="logout" />
     <br/>
     <input type="submit" value="Logout">

@@ -5,6 +5,7 @@ import com.maksim.controller.comand.Command;
 import com.maksim.controller.comand.NoCommand;
 import com.maksim.controller.comand.user.LoginCommand;
 import com.maksim.controller.comand.user.LogoutCommand;
+import com.maksim.controller.comand.user.RegistrationCommand;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -27,6 +28,7 @@ public class RequestHelper {
         //заполнение таблицы командами
         commands.put("login", new LoginCommand());
         commands.put("logout", new LogoutCommand());
+        commands.put("registration", new RegistrationCommand());
     }
 
     public Command getCommand(HttpServletRequest request) {

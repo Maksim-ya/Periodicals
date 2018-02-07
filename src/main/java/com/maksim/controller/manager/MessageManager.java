@@ -25,7 +25,7 @@ public class MessageManager {
         return instance;
     }
 
-    public String getProperty(String key) {
+    public String getMessage(String key) {
         return (String) resourceBundle.getObject(key);
     }
 }

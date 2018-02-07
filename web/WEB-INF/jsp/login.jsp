@@ -15,18 +15,16 @@
 </body>
 </html>
 --%>
-
-<%@ page language="java" contentType="text/html;
-charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<%@ page language="java" contentType="text/html;charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>--%>
 <html>
 <head><title>Login</title></head>
 <jsp:expression> (request.getAttribute("logoutMessage") != null)
-    ?(String)request.getAttribute("logoutMessage")
-    :""
+    ?(String)request.getAttribute("logoutMessage") :""
 </jsp:expression>
 <hr/>
 <body><h3>Login</h3>
-<form name="loginForm" method="POST" action="controller">
+<form name="loginForm" method="POST" action="application">
     <input type="hidden" name="command" value="login"/>
     Login:<br/>
     <input type="text" name="login" value=""><br/>
@@ -36,5 +34,12 @@ charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
     <input type="submit" value="Enter">
 </form>
 <hr/>
+<%--<form method="get" action="application">--%>
+    <%--<input type="hidden" name="command" value="register">--%>
+<%--</form>--%>
+
+
+
+<a href ="application" >Registration</a>!!!!!!
 </body>
 </html>

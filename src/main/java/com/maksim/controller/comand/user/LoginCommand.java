@@ -11,9 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-/**
- * Created by Максим on 15/Jan/18.
- */
+
 public class LoginCommand implements Command {
     private static final String PARAM_NAME_LOGIN = "login";
     private static final String PARAM_NAME_PASSWORD = "password";
@@ -31,17 +29,11 @@ public class LoginCommand implements Command {
             request.setAttribute("name", user.getFullName());
 
 //определение пути к main.jsp
-
-            page = ConfigurationManager.getInstance()
-
-                    .getProperty(ConfigurationManager.MAIN_PAGE_PATH);
+            page = ConfigurationManager.getInstance().getPage(ConfigurationManager.MAIN_PAGE_PATH);
 
         } else {
-            request.setAttribute("errorMessage", MessageManager.getInstance().getProperty(MessageManager.LOGIN_ERROR_MESSAGE));
-
-            page = ConfigurationManager.getInstance()
-                    .getProperty(ConfigurationManager.ERROR_PAGE_PATH);
-
+            request.setAttribute("errorMessage", MessageManager.getInstance().getMessage(MessageManager.LOGIN_ERROR_MESSAGE));
+            page = ConfigurationManager.getInstance().getPage(ConfigurationManager.ERROR_PAGE_PATH);
         }
         return page;
     }

@@ -44,15 +44,13 @@ public class Controller extends HttpServlet {
         } catch (ServletException e) {
             e.printStackTrace();
 //генерация сообщения об ошибке
-            request.setAttribute(
-                    "errorMessage", MessageManager.getInstance().getProperty(MessageManager.SERVLET_EXCEPTION_ERROR_MESSAGE));
+            request.setAttribute("errorMessage", MessageManager.getInstance().getMessage(MessageManager.SERVLET_EXCEPTION_ERROR_MESSAGE));
 //вызов JSP-страницы c cообщением об ошибке
-            page = ConfigurationManager.getInstance().getProperty(ConfigurationManager.ERROR_PAGE_PATH);
+            page = ConfigurationManager.getInstance().getPage(ConfigurationManager.ERROR_PAGE_PATH);
         } catch (IOException e) {
             e.printStackTrace();
-            request.setAttribute("errorMessage",
-                    MessageManager.getInstance().getProperty(MessageManager.IO_EXCEPTION_ERROR_MESSAGE));
-            page = ConfigurationManager.getInstance().getProperty(ConfigurationManager.ERROR_PAGE_PATH);
+            request.setAttribute("errorMessage", MessageManager.getInstance().getMessage(MessageManager.IO_EXCEPTION_ERROR_MESSAGE));
+            page = ConfigurationManager.getInstance().getPage(ConfigurationManager.ERROR_PAGE_PATH);
         }
 //вызов страницы ответа на запрос
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
