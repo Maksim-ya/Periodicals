@@ -22,7 +22,6 @@ public class LoginLogic {
 // проверка логина и пароля
         try {
 
-
             PreparedStatement statament = connection.prepareStatement(sql_query);
 
             statament.setString(1, login);

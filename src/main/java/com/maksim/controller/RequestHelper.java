@@ -5,6 +5,7 @@ import com.maksim.controller.comand.Command;
 import com.maksim.controller.comand.NoCommand;
 import com.maksim.controller.comand.user.LoginCommand;
 import com.maksim.controller.comand.user.LogoutCommand;
+import com.maksim.controller.comand.redirect.RedirectRegistration;
 import com.maksim.controller.comand.user.RegistrationCommand;
 
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +30,8 @@ public class RequestHelper {
         commands.put("login", new LoginCommand());
         commands.put("logout", new LogoutCommand());
         commands.put("registration", new RegistrationCommand());
+
+        commands.put("redirect", new RedirectRegistration());
     }
 
     public Command getCommand(HttpServletRequest request) {

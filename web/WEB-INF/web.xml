@@ -6,7 +6,7 @@
     <display-name>Periodicals</display-name>
     <servlet>
         <servlet-name>controller</servlet-name>
-        <servlet-class>com.maksim.controller.Controller</servlet-class>
+        <servlet-class>com.maksim.controller.FrontController</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>controller</servlet-name>

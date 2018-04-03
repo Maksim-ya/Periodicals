@@ -11,12 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class Controller extends HttpServlet {
+public class FrontController extends HttpServlet {
 
     //объект, содержащий список возможных команд
     RequestHelper requestHelper = RequestHelper.getInstance();
 
-    public Controller() {
+    public FrontController() {
         super();
     }
 

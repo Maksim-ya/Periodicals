@@ -20,6 +20,7 @@
 <%--xmlns:c=--%>
 <%--"http://java.sun.com/jsp/jstl/core" version="2.0">--%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>--%>
 <%--<jsp:directive.page contentType="text/html; charset=Utf-8"/>--%>
 <html>
 <head><title>Error</title></head>

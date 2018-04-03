@@ -14,6 +14,7 @@ public class MessageManager {
     public static final String SERVLET_EXCEPTION_ERROR_MESSAGE = "SERVLET_EXCEPTION_ERROR_MESSAGE";
     public static final String IO_EXCEPTION_ERROR_MESSAGE = "IO_EXCEPTION_ERROR_MESSAGE";
     public static final String SUCCESS_LOGOUT_MESSAGE = "SUCCESS_LOGOUT_MESSAGE";
+    public static final String SUCCESS_REGISTRATION_MESSAGE = "SUCCESS_REGISTRATION_MESSAGE";
 
 
     public static MessageManager getInstance() {

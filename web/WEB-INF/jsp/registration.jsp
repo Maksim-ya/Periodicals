@@ -13,10 +13,15 @@
 <body>
 <form name="registrationForm" method="POST" action="application">
     <input type="hidden" name="command" value="registration"/>
-    Registration:<br/>
+    <h2>Registration:</h2><br/>
+    Login:<br/>
     <input type="text" name="login" value=""><br/>
     Password:<br/>
-    <input type="password" name="password" value="">
+    <input type="password" name="password" value=""><br/>
+    FullName:<br/>
+    <input type="text" name="fullName" value=""><br/>
+    Address:<br/>
+    <input type="text" name="address" value="">
     <br/>
     <input type="submit" value="Enter">
 </form>
