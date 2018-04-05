@@ -16,6 +16,35 @@ public class User {
 	public User() {
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof User)) return false;
+
+		User user = (User) o;
+
+		if (userId != user.userId) return false;
+		if (validUser != user.validUser) return false;
+		if (!login.equals(user.login)) return false;
+		if (!password.equals(user.password)) return false;
+		if (!fullName.equals(user.fullName)) return false;
+		if (!address.equals(user.address)) return false;
+		return role.equals(user.role);
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = userId;
+		result = 31 * result + login.hashCode();
+		result = 31 * result + password.hashCode();
+		result = 31 * result + fullName.hashCode();
+		result = 31 * result + address.hashCode();
+		result = 31 * result + role.hashCode();
+		result = 31 * result + (validUser ? 1 : 0);
+		return result;
+	}
+
 	public int getUserId() {
 		return userId;
 	}
