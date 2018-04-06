@@ -9,7 +9,7 @@ import java.util.Date;
  */
 public class Payment {
     private int paymentId;
-    private User user;
+    private int userId;
     private BigDecimal price;
     private Date date;
     private Period period;

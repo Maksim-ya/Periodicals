@@ -6,7 +6,7 @@ package com.maksim.domain;
  */
 public class Subscription {
     private int subscriptionId;
-    private User user;
-    private Publication publication;
+    private int  publicationID;
+    private int userId;
     private boolean isActive;
 }
