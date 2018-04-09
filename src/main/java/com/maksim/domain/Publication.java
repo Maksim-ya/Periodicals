@@ -15,6 +15,14 @@ public class Publication {
     public Publication() {
     }
 
+    public Publication(int publicationId, String title, BigDecimal price, String type, int edition) {
+        this.publicationId = publicationId;
+        this.title = title;
+        this.price = price;
+        this.type = type;
+        this.edition = edition;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -38,6 +46,17 @@ public class Publication {
         result = 31 * result + type.hashCode();
         result = 31 * result + edition;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Publication{" +
+                "publicationId=" + publicationId +
+                ", title='" + title + '\'' +
+                ", price=" + price +
+                ", type='" + type + '\'' +
+                ", edition=" + edition +
+                '}';
     }
 
     public int getPublicationId() {

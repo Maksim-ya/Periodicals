@@ -4,7 +4,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 
 public class DBConnection {
@@ -23,5 +25,19 @@ public class DBConnection {
             e.printStackTrace();
         }
         return connection;
+    }
+
+    public static void close(Connection connection, Statement statement, ResultSet resultSet) {
+        try {
+            if (statement != null) {statement.close();}
+            if (connection != null) {connection.close();}
+        } catch (SQLException e) {
+//            LOGGER.error(e.getMessage());
+        }
+        try {
+            if (resultSet != null) {resultSet.close();}
+        } catch (SQLException e) {
+//            LOGGER.error(e.getMessage());
+        }
     }
 }

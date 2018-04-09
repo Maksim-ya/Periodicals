@@ -13,6 +13,7 @@ public class ConfigurationManager {
     public static final String LOGIN_PAGE_PATH = "LOGIN_PAGE_PATH";
     public static final String MAIN_PAGE_PATH = "MAIN_PAGE_PATH";
     public static final String REGISTRATION_PAGE_PATH = "REGISTRATION_PAGE_PATH";
+    public static final String ALLPUBLICATIONS_PAGE_PATH = "ALLPUBLICATIONS_PAGE_PATH";
 
 
     public static ConfigurationManager getInstance() {

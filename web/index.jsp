@@ -20,6 +20,8 @@
 <html>
 <head><title>Index JSP</title></head>
 <body>
-<a href="application">Main Controller</a>
+<form action="application" method="get" >
+    <button  type="Submit" name="command" value="allpublications" >View all Periodicals</button>
+</form>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.maksim.model.impl;
 
 import com.maksim.model.dao.DaoFactory;
+import com.maksim.model.dao.PublicationDAO;
 import com.maksim.model.dao.UserDAO;
 
 
@@ -15,6 +16,11 @@ public class DaoFactoryImpl implements DaoFactory {
     @Override
     public UserDAO getUserDao() {
         return UserDaoImpl.getInstance();
+    }
+
+    @Override
+    public PublicationDAO getPublicationDao() {
+        return PublicationDaoImpl.getInstance();
     }
 
 
