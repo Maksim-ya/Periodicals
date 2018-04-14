@@ -47,14 +47,14 @@ public class PublicationDaoImpl implements PublicationDAO {
     }
 
     private List<Publication> resultToList(ResultSet resultSet) throws SQLException {
-        List<Publication> list = new ArrayList<>();
+        List<Publication> list = new ArrayList<Publication>();
         while (resultSet.next()) {
             Publication subscription = createPeriodicalFromResult(resultSet);
             list.add(subscription);
         }
-        for (int i = 0; i < list.size(); i++) {
-            System.out.println(list.get(i));
-        }
+//        for (int i = 0; i < list.size(); i++) {
+//            System.out.println(list.get(i));
+//        }
         return list;
 
     }

@@ -5,6 +5,7 @@
   Time: 20:16
   To change this template use File | Settings | File Templates.
 --%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -55,8 +56,8 @@
                     <td>${publication.price}</td>
                     <td>${publication.type}</td>
                     <td>${publication.edition}</td>
-                    <td><a href="<c:url value='/edit/${publication.id}'/>">Edit</a></td>
-                    <td><a href="<c:url value='/remove/${publication.id}'/>">Delete</a></td>
+                    <%--<td><a href="<c:url value='/edit/${publication.id}'/>">Edit</a></td>--%>
+                    <%--<td><a href="<c:url value='/remove/${publication.id}'/>">Delete</a></td>--%>
                 </tr>
             </c:forEach>
         </table>
