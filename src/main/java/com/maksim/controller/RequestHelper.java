@@ -1,6 +1,7 @@
 package com.maksim.controller;
 
 
+import com.maksim.controller.comand.BuyPageCommand;
 import com.maksim.controller.comand.Command;
 import com.maksim.controller.comand.NoCommand;
 import com.maksim.controller.comand.publication.PublicationListCommand;
@@ -36,6 +37,8 @@ public class RequestHelper {
 
 
         commands.put("allpublications", new PublicationListCommand());
+
+        commands.put("buyPage", new BuyPageCommand());
     }
 
     public Command getCommand(HttpServletRequest request) {

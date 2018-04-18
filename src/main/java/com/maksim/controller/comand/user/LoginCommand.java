@@ -9,6 +9,7 @@ import com.maksim.domain.User;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
@@ -25,8 +26,11 @@ public class LoginCommand implements Command {
 //проверка логина и пароля
 
         if (user != null) {
-            request.setAttribute("user", user);
-            request.setAttribute("name", user.getFullName());
+            HttpSession se = request.getSession();
+            se.setAttribute("user", user);
+            se.setAttribute("name", user.getFullName());
+//            request.setAttribute("user", user);
+//            request.setAttribute("name", user.getFullName());
 
 //определение пути к main.jsp
             page = ConfigurationManager.getInstance().getPage(ConfigurationManager.MAIN_PAGE_PATH);

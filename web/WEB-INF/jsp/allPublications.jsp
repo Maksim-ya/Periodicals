@@ -37,31 +37,37 @@
 <%--<tr>--%>
 <%--</c:forEach>--%>
 
-    <%--<c:if test="${!empty listOfPublications}">--%>
-        <table class="tg">
-            <tr>
-                <th width="80">ID</th>
-                <th width="120">First Name</th>
-                <th width="120">Last Name</th>
-                <th width="120">Position</th>
-                <th width="120">Salary</th>
-                <th width="60">Edit</th>
-                <th width="60">Delete</th>
-            </tr>
-            <c:forEach items="${listOfPublications}" var="publication">
-                <tr>
-                        <%--<td><a href="/employeedata/${employee.id}" target="_blank">${employee.id}</a></td>--%>
-                    <td>${publication.publicationId}</td>
-                    <td>${publication.title}</td>
-                    <td>${publication.price}</td>
-                    <td>${publication.type}</td>
-                    <td>${publication.edition}</td>
-                    <%--<td><a href="<c:url value='/edit/${publication.id}'/>">Edit</a></td>--%>
-                    <%--<td><a href="<c:url value='/remove/${publication.id}'/>">Delete</a></td>--%>
-                </tr>
-            </c:forEach>
-        </table>
-    <%--</c:if>--%>
+<%--<c:if test="${!empty listOfPublications}">--%>
+<table class="tg">
+    <tr>
+        <th width="80">ID</th>
+        <th width="120">Title</th>
+        <th width="120">Price</th>
+        <th width="120">Type</th>
+        <th width="120">Edition</th>
+        <th width="60">More</th>
+        <th width="60">Buy</th>
+    </tr>
+    <c:forEach items="${listOfPublications}" var="publication">
+        <tr>
+                <%--<td><a href="/employeedata/${employee.id}" target="_blank">${employee.id}</a></td>--%>
+            <td>${publication.publicationId}</td>
+            <td>${publication.title}</td>
+            <td>${publication.price}</td>
+            <td>${publication.type}</td>
+            <td>${publication.edition}</td>
+                <%--<td><a href="<c:url value='/edit/${publication.id}'/>">Edit</a></td>--%>
+            <td>
+                <%--<a href="<c:url value='/main'/>">Buy</a></td>--%>
+            <form action="application" method="get">
+                <button type="Submit" name="command" value="buyPage"> Buy</button>
+
+            </form>
+            </td>
+        </tr>
+    </c:forEach>
+</table>
+<%--</c:if>--%>
 <%--</form>--%>
 
 </body>
