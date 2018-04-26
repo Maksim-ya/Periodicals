@@ -26,7 +26,24 @@ public class PublicationDaoImpl implements PublicationDAO {
         return publicationDao;
     }
 
-
+    @Override
+    public List<Integer> findAllId() {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareStatement(
+                    "SELECT publicationId FROM publications");
+            resultSet = statement.executeQuery();
+            return resultToListId(resultSet);
+        } catch (SQLException e) {
+//            LOGGER.error(e.getMessage());
+        } finally {
+            DBConnection.close(connection, statement, resultSet);
+        }
+        return null;
+    }
     @Override
     public List<Publication> findAll() {
         Connection connection = null;
@@ -46,18 +63,31 @@ public class PublicationDaoImpl implements PublicationDAO {
         return null;
     }
 
+    private List<Integer> resultToListId(ResultSet resultSet) throws SQLException {
+        List<Integer> list = new ArrayList<Integer>();
+        while (resultSet.next()) {
+            int publicationId = createIdFromResult(resultSet);
+            list.add(publicationId);
+        }
+        return list;
+    }
+    private Integer createIdFromResult(ResultSet resultSet) throws SQLException {
+        if (resultSet.isBeforeFirst()) resultSet.next();
+
+        int publicationId = resultSet.getInt(1);
+        return publicationId;
+    }
+
     private List<Publication> resultToList(ResultSet resultSet) throws SQLException {
         List<Publication> list = new ArrayList<Publication>();
         while (resultSet.next()) {
-            Publication subscription = createPeriodicalFromResult(resultSet);
-            list.add(subscription);
+            Publication publication = createPeriodicalFromResult(resultSet);
+            list.add(publication);
         }
-//        for (int i = 0; i < list.size(); i++) {
-//            System.out.println(list.get(i));
-//        }
         return list;
 
     }
+
 
     private Publication createPeriodicalFromResult(ResultSet resultSet) throws SQLException {
         if (resultSet.isBeforeFirst()) resultSet.next();
@@ -70,9 +100,30 @@ public class PublicationDaoImpl implements PublicationDAO {
         return new Publication(publicationId, publicationTitle, publicationPrice, publicationType, publicationEdition);
     }
 
+    @Override
+    public Publication findById(int publicationId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareStatement(
+                    "SELECT * FROM publications WHERE publicationId = ?");
+            statement.setInt(1,publicationId);
+            resultSet = statement.executeQuery();
+            return createPeriodicalFromResult(resultSet);
+        } catch (SQLException e) {
+//            LOGGER.error(e.getMessage());
+        } finally {
+            DBConnection.close(connection, statement, resultSet);
+        }
+        return null;
+    }
+
+
 
     @Override
-    public Publication findByName(String name) {
+    public Publication findByTitle(String title) {
         return null;
     }
 

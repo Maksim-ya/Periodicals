@@ -10,13 +10,13 @@ import java.sql.*;
 public class LoginLogic {
     public static User checkLogin(String login, String password) {
 
-        // defining the dao object
+        // defining the dao object!!!!!!!!!!!!!!!!!!!!!!!!
         UserDaoImpl dao = new UserDaoImpl();
 
         // getting the connection from DBUtils
         final Connection connection = DBConnection.getConnection();
 
-        String sql_query = "SELECT USERID, FULLNAME, ADDRESS FROM USERS WHERE LOGIN = ? AND PASSWORD = ?";
+        String sql_query = "SELECT USERID, FULLNAME, ADDRESS,ROLE FROM USERS WHERE LOGIN = ? AND PASSWORD = ?";
 
         User user = null;
 // проверка логина и пароля
@@ -37,9 +37,11 @@ public class LoginLogic {
 
                 // setting the all attributes to object from database
                 user.setUserId(rs.getInt("userId"));
-//                user.setLogin(login);
+                user.setLogin(login);
+                user.setPassword(password);
                 user.setFullName(rs.getString("fullName"));
                 user.setAddress(rs.getString("address"));
+                user.setRole(rs.getString("role"));
                 user.setValidUser(true);
 
             }

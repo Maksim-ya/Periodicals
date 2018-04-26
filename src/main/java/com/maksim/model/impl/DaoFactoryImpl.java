@@ -2,6 +2,7 @@ package com.maksim.model.impl;
 
 import com.maksim.model.dao.DaoFactory;
 import com.maksim.model.dao.PublicationDAO;
+import com.maksim.model.dao.SubscriptionDAO;
 import com.maksim.model.dao.UserDAO;
 
 
@@ -23,5 +24,9 @@ public class DaoFactoryImpl implements DaoFactory {
         return PublicationDaoImpl.getInstance();
     }
 
+    @Override
+    public SubscriptionDAO getSubcriptionDao() {
+        return SubscriptionDaoImpl.getInstance();
+    }
 
 }

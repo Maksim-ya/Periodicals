@@ -3,10 +3,7 @@ package com.maksim.model.connection;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 
 
 public class DBConnection {
@@ -29,13 +26,29 @@ public class DBConnection {
 
     public static void close(Connection connection, Statement statement, ResultSet resultSet) {
         try {
-            if (statement != null) {statement.close();}
-            if (connection != null) {connection.close();}
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+            if (resultSet != null) {
+                resultSet.close();
+            }
         } catch (SQLException e) {
 //            LOGGER.error(e.getMessage());
         }
+    }
+
+
+    public static void close(Connection connection, PreparedStatement preparedStatement) {
         try {
-            if (resultSet != null) {resultSet.close();}
+            if (preparedStatement != null) {
+                preparedStatement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
         } catch (SQLException e) {
 //            LOGGER.error(e.getMessage());
         }

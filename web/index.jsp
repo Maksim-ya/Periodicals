@@ -21,7 +21,7 @@
 <head><title>Index JSP</title></head>
 <body>
 <form action="application" method="get" >
-    <button  type="Submit" name="command" value="allpublications" >View all Periodicals</button>
+    <button  type="Submit" name="command" value="allPublications" >View all Periodicals</button>
 </form>
 </body>
 </html>

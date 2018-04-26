@@ -6,4 +6,5 @@ package com.maksim.model.dao;
 public interface DaoFactory {
     UserDAO getUserDao();
     PublicationDAO getPublicationDao();
+    SubscriptionDAO getSubcriptionDao();
 }

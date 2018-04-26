@@ -9,6 +9,7 @@ import com.maksim.model.impl.PublicationDaoImpl;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -18,12 +19,9 @@ import java.util.List;
 public class PublicationListCommand implements Command {
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String page = null;
-        PublicationDaoImpl dao = new PublicationDaoImpl();
-        List<Publication> list =  dao.findAll();
-//        for (int i = 0; i <list.size() ; i++) {
-//            System.out.println(list.get(i));
-//        }
+        String page;
+        PublicationDaoImpl publicationDao = new PublicationDaoImpl();
+        List<Publication> list =  publicationDao.findAll();
 
         request.setAttribute("listOfPublications", list);
 
