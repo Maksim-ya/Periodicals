@@ -4,6 +4,7 @@ import com.maksim.domain.User;
 import com.maksim.model.connection.DBConnection;
 import com.maksim.model.dao.UserDAO;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -49,8 +50,29 @@ public class UserDaoImpl implements UserDAO {
         try {
             connection = DBConnection.getConnection();
             statement = connection.prepareStatement(
-                    "SELECT * FROM users WHERE userId = ?");
+                    "SELECT * FROM USERS WHERE USERID = ?");
             statement.setInt(1, userId);
+            resultSet = statement.executeQuery();
+            return createUserFromResult(resultSet);
+        } catch (SQLException e) {
+//            LOGGER.error(e.getMessage());
+        } finally {
+            DBConnection.close(connection, statement, resultSet);
+        }
+        return null;
+    }
+
+    @Override
+    public User checkLoginAndPassword(String login, String password) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareStatement(
+                    "SELECT * FROM USERS WHERE LOGIN = ? AND PASSWORD = ?");
+            statement.setString(1, login);
+            statement.setString(2, password);
             resultSet = statement.executeQuery();
             return createUserFromResult(resultSet);
         } catch (SQLException e) {
@@ -69,12 +91,31 @@ public class UserDaoImpl implements UserDAO {
         String password = resultSet.getString(3);
         String fullName = resultSet.getString(4);
         String address = resultSet.getString(5);
-        String role = resultSet.getString(6);
-        return new User(userId, login,password,fullName,address,role);
+        BigDecimal account =resultSet.getBigDecimal(6);
+        String role = resultSet.getString(7);
+        return new User(userId, login,password,fullName,address,account,role);
     }
 
-    public void updateUser(User user) {
-
+    public void updateUser (User user ) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            statement = connection.prepareStatement(
+                    "UPDATE USERS  SET LOGIN = ?, PASSWORD = ?, FULLNAME = ?, ADDRESS = ?, ACCOUNT= ? WHERE USERID = ? ");
+            statement.setString(1, user.getLogin());
+            statement.setString(2,user.getPassword());
+            statement.setString(3,user.getFullName());
+            statement.setString(4,user.getAddress());
+            statement.setBigDecimal(5,user.getAccount());
+            statement.setInt(6,user.getUserId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+//            LOGGER.error(e.getMessage());
+        } finally {
+            DBConnection.close(connection, statement, resultSet);
+        }
     }
 
     public void removeUser(int id) {

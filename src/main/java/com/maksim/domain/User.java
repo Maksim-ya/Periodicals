@@ -1,6 +1,7 @@
 package com.maksim.domain;
 
 
+import java.math.BigDecimal;
 
 public class User {
 
@@ -9,6 +10,7 @@ public class User {
 	private String password;
 	private String fullName;
 	private String address;
+	private BigDecimal account;
 	private String role;
 
 	private boolean validUser;
@@ -16,12 +18,13 @@ public class User {
 	public User() {
 	}
 
-	public User(int userId, String login, String password, String fullName, String address, String role) {
+	public User(int userId, String login, String password, String fullName, String address,BigDecimal account, String role) {
 		this.userId = userId;
 		this.login = login;
 		this.password = password;
 		this.fullName = fullName;
 		this.address = address;
+		this.account =account;
 		this.role = role;
 	}
 
@@ -38,6 +41,7 @@ public class User {
 		if (!password.equals(user.password)) return false;
 		if (!fullName.equals(user.fullName)) return false;
 		if (!address.equals(user.address)) return false;
+		if (account.compareTo(user.account)!=0) return false;
 		return role.equals(user.role);
 
 	}
@@ -94,6 +98,14 @@ public class User {
 		this.address = address;
 	}
 
+	public BigDecimal getAccount() {
+		return account;
+	}
+
+	public void setAccount(BigDecimal account) {
+		this.account = account;
+	}
+
 	public boolean isValidUser() {
 		return validUser;
 	}
@@ -118,6 +130,7 @@ public class User {
 				", password='" + password + '\'' +
 				", fullName='" + fullName + '\'' +
 				", address='" + address + '\'' +
+				", account='" + account + '\'' +
 				", role='" + role + '\'' +
 				", validUser=" + validUser +
 				'}';

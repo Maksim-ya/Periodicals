@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.List;
+import java.math.BigDecimal;
 
 /**
  * Created by Максим on 17/Apr/18.
@@ -20,8 +20,10 @@ import java.util.List;
 public class BasketCommand implements Command {
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page;
+        BigDecimal totalPrice = new BigDecimal("0.0");;
         HttpSession se = request.getSession(true);
         User user = (User) se.getAttribute("user");
+
 
 
 
@@ -40,10 +42,13 @@ public class BasketCommand implements Command {
                 Publication publication = publicationDAO.findById(Integer.parseInt(publicationId));
 
                 se.setAttribute("isPublication", "?//D");
-
                 se.setAttribute("publication" + i, publication);
+
+                totalPrice=totalPrice.add(publication.getPrice());
+
             }
         }
+        se.setAttribute("totalPrice", totalPrice);
 
 //        String publicationId = request.getParameter("publicationId");
 //

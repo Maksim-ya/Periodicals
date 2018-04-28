@@ -1,6 +1,5 @@
 package com.maksim.controller.comand.user;
 
-import com.maksim.controller.LoginLogic;
 import com.maksim.controller.comand.Command;
 import com.maksim.controller.manager.ConfigurationManager;
 import com.maksim.controller.manager.MessageManager;
@@ -8,6 +7,7 @@ import com.maksim.controller.manager.UserSession;
 import com.maksim.domain.Subscription;
 import com.maksim.domain.User;
 import com.maksim.model.impl.SubscriptionDaoImpl;
+import com.maksim.model.impl.UserDaoImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +26,9 @@ public class LoginCommand implements Command {
         String page;
 //извлечение из запроса логина и пароля
         String login = request.getParameter(PARAM_LOGIN);
-        String pass = request.getParameter(PARAM_NAME_PASSWORD);
-        User user = LoginLogic.checkLogin(login, pass);
+        String password = request.getParameter(PARAM_NAME_PASSWORD);
+//        User user = LoginLogic.checkLogin(login, pass);
+       User user = new UserDaoImpl().checkLoginAndPassword(login,password);
 //проверка логина и пароля
 
         if (user != null) {

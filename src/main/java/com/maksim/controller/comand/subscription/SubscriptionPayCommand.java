@@ -8,13 +8,14 @@ import com.maksim.domain.Publication;
 import com.maksim.domain.Subscription;
 import com.maksim.domain.User;
 import com.maksim.model.impl.SubscriptionDaoImpl;
+import com.maksim.model.impl.UserDaoImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-
+import java.math.BigDecimal;
 
 
 public class SubscriptionPayCommand implements Command {
@@ -25,11 +26,14 @@ public class SubscriptionPayCommand implements Command {
         String page;
         HttpSession se = request.getSession(true);
         User user = (User) se.getAttribute(PARAM_USER);
-        int publicationAllId = (Integer)se.getAttribute("publicationAllId");
+        int publicationAllId = (Integer) se.getAttribute("publicationAllId");
+        BigDecimal totalPrice = new BigDecimal(String.valueOf(se.getAttribute("totalPrice")));
 
-//        if(user.getAccount().compareTo(price) ==1 ){
-        if (true) {
+        if (user.getAccount().compareTo(totalPrice) >= 0) {
 
+            BigDecimal priceUpdate = user.getAccount().subtract(totalPrice);
+            user.setAccount(priceUpdate);
+            new UserDaoImpl().updateUser(user);
             Subscription subscription = new Subscription();
             SubscriptionDaoImpl subscriptionDao = new SubscriptionDaoImpl();
             for (int i = 1; i <= publicationAllId; i++) {
@@ -38,15 +42,12 @@ public class SubscriptionPayCommand implements Command {
                     subscription.setPublication(publication);
                     subscription.setUser(user);
                     subscriptionDao.addSubscription(subscription);
-
-                    se.setAttribute("publication" + i,null);
-                    se.setAttribute("isPublication",null);
+                    se.setAttribute("publication" + i, null);
+                    se.setAttribute("isPublication", null);
                 }
             }
             page = UserSession.loadUserDataToSession(request, user);
         }
-
-
 
 
 //         java.util.Enumeration  cats = request.getAttributeNames();
@@ -80,7 +81,7 @@ public class SubscriptionPayCommand implements Command {
 //            subscriptionDao.update(subscription);
 //        }
         else {
-            request.setAttribute("errorMessage", MessageManager.getInstance().getMessage(MessageManager.LOGIN_ERROR_MESSAGE));
+            request.setAttribute("errorMessage", MessageManager.getInstance().getMessage(MessageManager.PAYMENT_ERROR_MESSAGE));
             page = ConfigurationManager.getInstance().getPage(ConfigurationManager.ERROR_PAGE_PATH);
         }
 
