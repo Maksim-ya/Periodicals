@@ -48,25 +48,35 @@
         <th width="60">More</th>
         <th width="60">Buy</th>
     </tr>
+    <form action="application" method="get">
     <c:forEach items="${listOfPublications}" var="publication">
         <tr>
                 <%--<td><a href="/employeedata/${employee.id}" target="_blank">${employee.id}</a></td>--%>
-            <td>${publication.publicationId}</td>
+            <td><label><input type="checkbox" name="publicationId${publication.publicationId}" onclick="setButton"
+                              value="${publication.publicationId}"></label></td>
+                    <%--<form action="CheckBox" method="POST" target="_blank">--%>
+                        <%--<input type="checkbox" name="publicationId" onclick="setButton"--%>
+                                      <%--value="${publication.publicationId}"></label></td>--%>
+            <%--<td> ${publication.publicationId}</td>--%>
             <td>${publication.title}</td>
             <td>${publication.price}</td>
             <td>${publication.type}</td>
             <td>${publication.edition}</td>
                 <%--<td><a href="<c:url value='/edit/${publication.id}'/>">Edit</a></td>--%>
             <td>
-                <%--<a href="<c:url value='/main'/>">Buy</a></td>--%>
-            <form action="application" method="get">
-                <button type="Submit" name="command" value="buyPage"> Buy</button>
-
-            </form>
+                    <%--<a href="<c:url value='/main'/>">Buy</a></td>--%>
+                <%--<form action="application" method="post">--%>
+                    <%--<input type="hidden" name="publicationId" value="${publication.publicationId}"/>--%>
+                    <%--<button type="Submit" name="command" value="basket"> Buy</button>--%>
+                <%--</form>--%>
             </td>
         </tr>
     </c:forEach>
 </table>
+<%--<form action="application" method="post">--%>
+    <%--<input type="hidden" name="publicationId" value="${publication.publicationId}"/>--%>
+    <button type="Submit" name="command" value="basket"> Buy</button>
+</form>
 <%--</c:if>--%>
 <%--</form>--%>
 

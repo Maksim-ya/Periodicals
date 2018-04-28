@@ -8,7 +8,9 @@ import java.util.List;
  * Created by Максим on 09/Apr/18.
  */
 public interface PublicationDAO {
+    List<Integer> findAllId();
     List<Publication> findAll();
-    Publication findByName(String name);
+    Publication findById(int id);
+    Publication findByTitle(String title);
     boolean addPublication(Publication Publication);
 }

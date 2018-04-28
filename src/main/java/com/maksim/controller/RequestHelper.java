@@ -1,10 +1,11 @@
 package com.maksim.controller;
 
 
-import com.maksim.controller.comand.BuyPageCommand;
+import com.maksim.controller.comand.BasketCommand;
 import com.maksim.controller.comand.Command;
 import com.maksim.controller.comand.NoCommand;
 import com.maksim.controller.comand.publication.PublicationListCommand;
+import com.maksim.controller.comand.subscription.SubscriptionPayCommand;
 import com.maksim.controller.comand.user.LoginCommand;
 import com.maksim.controller.comand.user.LogoutCommand;
 import com.maksim.controller.comand.redirect.RedirectRegistration;
@@ -33,12 +34,16 @@ public class RequestHelper {
         commands.put("logout", new LogoutCommand());
         commands.put("registration", new RegistrationCommand());
 
+
         commands.put("redirect", new RedirectRegistration());
 
 
-        commands.put("allpublications", new PublicationListCommand());
+        commands.put("allPublications", new PublicationListCommand());
 
-        commands.put("buyPage", new BuyPageCommand());
+        commands.put("basket", new BasketCommand());
+
+
+        commands.put("payment", new SubscriptionPayCommand());
     }
 
     public Command getCommand(HttpServletRequest request) {

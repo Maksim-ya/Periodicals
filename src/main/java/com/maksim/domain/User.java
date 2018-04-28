@@ -16,6 +16,15 @@ public class User {
 	public User() {
 	}
 
+	public User(int userId, String login, String password, String fullName, String address, String role) {
+		this.userId = userId;
+		this.login = login;
+		this.password = password;
+		this.fullName = fullName;
+		this.address = address;
+		this.role = role;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
@@ -99,5 +108,18 @@ public class User {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"userId=" + userId +
+				", login='" + login + '\'' +
+				", password='" + password + '\'' +
+				", fullName='" + fullName + '\'' +
+				", address='" + address + '\'' +
+				", role='" + role + '\'' +
+				", validUser=" + validUser +
+				'}';
 	}
 }

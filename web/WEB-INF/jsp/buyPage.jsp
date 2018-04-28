@@ -17,6 +17,8 @@ charset=Utf-8" />
 <hr />
 <c:out value="${name}, buy!"/>
 <hr />
-
+<form action="application" method="get" >
+    <button  type="Submit" name="command" value="payment" >Buy now</button>
+</form>
 </body>
 </html>
