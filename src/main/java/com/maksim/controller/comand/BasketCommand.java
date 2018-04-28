@@ -23,6 +23,10 @@ public class BasketCommand implements Command {
         HttpSession se = request.getSession(true);
         User user = (User) se.getAttribute("user");
 
+<<<<<<< HEAD
+=======
+//        se.getAttribute("publication");
+>>>>>>> origin/master
         PublicationDAO publicationDAO = new PublicationDaoImpl();
         int publicationAllId = publicationDAO.findAllId().size();
         se.setAttribute("publicationAllId", publicationAllId);
@@ -36,7 +40,11 @@ public class BasketCommand implements Command {
             String publicationId = request.getParameter("publicationId" + i);
             if (publicationId != null) {
                 Publication publication = publicationDAO.findById(Integer.parseInt(publicationId));
+<<<<<<< HEAD
                 se.setAttribute("isPublication", "?//D");
+=======
+//                System.out.println(publication);
+>>>>>>> origin/master
                 se.setAttribute("publication" + i, publication);
             }
         }
@@ -57,8 +65,19 @@ public class BasketCommand implements Command {
 //        String publicationId = request.getParameter("publicationId");
 
         if (user != null) {
+<<<<<<< HEAD
             page = UserSession.loadUserDataToSession(request, user);
 
+=======
+//            se.setAttribute("user", user);
+//            se.setAttribute("name", user.getFullName());
+//            se.setAttribute("publication", publication);
+            page = UserSession.loadUserDataToSession(request, user);
+//            page =ConfigurationManager.getInstance().getPage(ConfigurationManager.BUY_PAGE_PATH);
+
+
+//            page = ConfigurationManager.getInstance().getPage(ConfigurationManager.BUY_PAGE_PATH);
+>>>>>>> origin/master
         } else {
             page = ConfigurationManager.getInstance().getPage(ConfigurationManager.LOGIN_PAGE_PATH);
         }
