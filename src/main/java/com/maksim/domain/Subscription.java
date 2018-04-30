@@ -1,5 +1,6 @@
 package com.maksim.domain;
 
+//import java.time.Period;
 
 /**
  * Created by User on 05/04/2018.
@@ -23,15 +24,7 @@ public class Subscription {
         this.isActive = isActive;
     }
 
-    @Override
-    public String toString() {
-        return "Subscription{" +
-                "subscriptionId=" + subscriptionId +
-                ", publication=" + publication +
-                ", user=" + user +
-                ", isActive=" + isActive +
-                '}';
-    }
+
 
     public int getSubscriptionId() {
         return subscriptionId;
@@ -63,5 +56,15 @@ public class Subscription {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    @Override
+    public String toString() {
+        return "Subscription{" +
+                "subscriptionId=" + subscriptionId +
+                ", publication=" + publication +
+                ", user=" + user +
+                ", isActive=" + isActive +
+                '}';
     }
 }

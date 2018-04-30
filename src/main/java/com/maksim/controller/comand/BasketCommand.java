@@ -29,7 +29,7 @@ public class BasketCommand implements Command {
 
         PublicationDAO publicationDAO = new PublicationDaoImpl();
         int publicationAllId = publicationDAO.findAllId().size();
-        se.setAttribute("publicationAllId", publicationAllId);
+        se.setAttribute(PARAM_PUBLICATION_ALL_ID, publicationAllId);
 
 //        java.util.Enumeration cats = request.getAttributeNames();
 //        List<Object> list = java.util.Collections.list(cats);
@@ -37,12 +37,12 @@ public class BasketCommand implements Command {
 //            System.out.println(list.get(i));
 //        }
         for (int i = 1; i <= publicationAllId; i++) {
-            String publicationId = request.getParameter("publicationId" + i);
+            String publicationId = request.getParameter(PARAM_PUBLICATION + i);
             if (publicationId != null) {
                 Publication publication = publicationDAO.findById(Integer.parseInt(publicationId));
 
-                se.setAttribute("isPublication", "?//D");
-                se.setAttribute("publication" + i, publication);
+                se.setAttribute(PARAM_IS_PUBLICATION, "?//D");
+                se.setAttribute(PARAM_PUBLICATION+ i, publication);
 
                 totalPrice=totalPrice.add(publication.getPrice());
 
@@ -73,7 +73,7 @@ public class BasketCommand implements Command {
 //            se.setAttribute("user", user);
 //            se.setAttribute("name", user.getFullName());
 //            se.setAttribute("publication", publication);
-            page = UserSession.loadUserDataToSession(request, user);
+//            page = UserSession.loadUserDataToSession(request, user);
 //            page =ConfigurationManager.getInstance().getPage(ConfigurationManager.BUY_PAGE_PATH);
 
 

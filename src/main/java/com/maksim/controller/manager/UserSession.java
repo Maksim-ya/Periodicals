@@ -26,6 +26,9 @@ public class UserSession {
             } else {
                 SubscriptionDaoImpl subscriptionDao = new SubscriptionDaoImpl();
                 List<Subscription> list = subscriptionDao.findSubscriptionsByUser(user.getUserId());
+//                for (int i = 0; i <list.size() ; i++) {
+//                    System.out.println(list.get(i));
+//                }
                 request.setAttribute(PARAM_SUBSCRITIONS, list);
 
                 //определение пути к main.jsp

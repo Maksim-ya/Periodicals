@@ -20,14 +20,14 @@ import java.math.BigDecimal;
 
 public class SubscriptionPayCommand implements Command {
 
-    private static final String PARAM_USER = "user";
+//    private static final String PARAM_USER = "user";
 
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page;
         HttpSession se = request.getSession(true);
         User user = (User) se.getAttribute(PARAM_USER);
-        int publicationAllId = (Integer) se.getAttribute("publicationAllId");
-        BigDecimal totalPrice = new BigDecimal(String.valueOf(se.getAttribute("totalPrice")));
+        int publicationAllId = (Integer) se.getAttribute(PARAM_PUBLICATION_ALL_ID);
+        BigDecimal totalPrice = new BigDecimal(String.valueOf(se.getAttribute(PARAM_TOTAL_PRICE)));
 
         if (user.getAccount().compareTo(totalPrice) >= 0) {
 
@@ -37,13 +37,13 @@ public class SubscriptionPayCommand implements Command {
             Subscription subscription = new Subscription();
             SubscriptionDaoImpl subscriptionDao = new SubscriptionDaoImpl();
             for (int i = 1; i <= publicationAllId; i++) {
-                Publication publication = (Publication) se.getAttribute("publication" + i);
+                Publication publication = (Publication) se.getAttribute(PARAM_PUBLICATION + i);
                 if (publication != null) {
                     subscription.setPublication(publication);
                     subscription.setUser(user);
                     subscriptionDao.addSubscription(subscription);
-                    se.setAttribute("publication" + i, null);
-                    se.setAttribute("isPublication", null);
+                    se.setAttribute(PARAM_PUBLICATION + i, null);
+                    se.setAttribute(PARAM_IS_PUBLICATION, null);
                 }
             }
             page = UserSession.loadUserDataToSession(request, user);

@@ -52,7 +52,7 @@
     <c:forEach items="${listOfPublications}" var="publication">
         <tr>
                 <%--<td><a href="/employeedata/${employee.id}" target="_blank">${employee.id}</a></td>--%>
-            <td><label><input type="checkbox" name="publicationId${publication.publicationId}" onclick="setButton"
+            <td><label><input type="checkbox" name="publication${publication.publicationId}" onclick="setButton"
                               value="${publication.publicationId}"></label></td>
                     <%--<form action="CheckBox" method="POST" target="_blank">--%>
                         <%--<input type="checkbox" name="publicationId" onclick="setButton"--%>

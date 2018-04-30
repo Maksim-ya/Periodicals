@@ -35,9 +35,9 @@ public class SubscriptionDaoImpl implements SubscriptionDAO {
             resultSet = statement.executeQuery();
             List<Subscription> list =  resultToList(resultSet);
 
-            for (int i = 0; i <list.size() ; i++) {
-                System.out.println(list.get(i));
-            }
+//            for (int i = 0; i <list.size() ; i++) {
+//                System.out.println(list.get(i));
+//            }
 
             return list;
         } catch (SQLException e) {
