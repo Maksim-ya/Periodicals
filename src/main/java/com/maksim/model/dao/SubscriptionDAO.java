@@ -8,5 +8,6 @@ import java.util.List;
 public interface SubscriptionDAO {
 
     List<Subscription> findSubscriptionsByUser(int userId);
-    boolean addSubscription(Subscription subscription);
+    boolean addSubscription(Subscription subscription, Connection connection);
+//    boolean addSubscription(Subscription subscription);
 }

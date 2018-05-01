@@ -98,12 +98,12 @@ public class UserDaoImpl implements UserDAO {
         return new User(userId, login,password,fullName,address,account,role);
     }
 
-    public void updateUser (User user ) {
-        Connection connection = null;
+    public void updateUser (User user,Connection connection ) {
+//        Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
-            connection = DBConnection.getConnection();
+//            connection = DBConnection.getConnection();
             statement = connection.prepareStatement(
                     "UPDATE USERS  SET LOGIN = ?, PASSWORD = ?, FULLNAME = ?, ADDRESS = ?, ACCOUNT= ? WHERE USERID = ? ");
             statement.setString(1, user.getLogin());

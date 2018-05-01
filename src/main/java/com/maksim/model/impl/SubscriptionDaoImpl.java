@@ -45,11 +45,11 @@ public class SubscriptionDaoImpl implements SubscriptionDAO {
     }
 
     @Override
-    public boolean addSubscription(Subscription subscription) {
-        Connection connection = null;
+    public boolean addSubscription(Subscription subscription, Connection connection) {
+//        Connection connection = null;
         PreparedStatement preparedStatement = null;
         try {
-            connection =  DBConnection.getConnection();
+//            connection =  DBConnection.getConnection();
             preparedStatement = connection.prepareStatement(
                     "INSERT INTO subscriptions (publicationId, userId,paymentId, isActive) VALUES (?,?,?,?)");
             preparedStatement.setInt(1, subscription.getPublication().getPublicationId());

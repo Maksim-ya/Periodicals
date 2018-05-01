@@ -22,9 +22,9 @@ public class PaymentDaoImpl implements PaymentDAO {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         int userId;
-        try {
+//        try {
             connection =  DBConnection.getConnection();
-            connection.setAutoCommit(false);
+//            connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(
                     "INSERT INTO payments (userId, totalPrice, dateTime) VALUES (?,?,?)");
             userId = user.getUserId();
@@ -35,24 +35,25 @@ public class PaymentDaoImpl implements PaymentDAO {
             Timestamp dateTime =new Timestamp(date.getTime());
             preparedStatement.setTimestamp(3, dateTime);
             preparedStatement.executeUpdate();
-            connection.commit();
-        } catch (SQLException e) {
-            connection.rollback();
-            return false;
+//            connection.commit();
+//        } catch (SQLException e) {
+//            connection.rollback();
+//            return false;
 
-        } finally {
-//            DBConnection.close(connection, preparedStatement);
-        }
+//        } finally {
+////            DBConnection.close(connection, preparedStatement);
+//        }
             Payment payment = new PaymentDaoImpl().findPaymentByPaymentInfo(userId,totalPrice);
 
         try {
+            connection =  DBConnection.getConnection();
             connection.setAutoCommit(false);
             for (int i = 0; i <publicationList.size(); i++) {
                 Subscription subscription = new Subscription();
                 subscription.setPublication(publicationList.get(i));
                 subscription.setUser(user);
                 subscription.setPayment(payment);
-                new SubscriptionDaoImpl().addSubscription(subscription);
+                new SubscriptionDaoImpl().addSubscription(subscription, connection);
 //                preparedStatement = connection.prepareStatement(
 //                        "INSERT INTO subscriptions (publicationId, userId,paymentId, isActive) VALUES (?,?,?,?)");
 //                preparedStatement.setInt(1, subscription.getPublication().getPublicationId());
@@ -63,7 +64,7 @@ public class PaymentDaoImpl implements PaymentDAO {
             }
             BigDecimal priceUpdate = user.getAccount().subtract(totalPrice);
             user.setAccount(priceUpdate);
-            new UserDaoImpl().updateUser(user);
+            new UserDaoImpl().updateUser(user, connection);
 //            preparedStatement = connection.prepareStatement(
 //                    "UPDATE USERS  SET LOGIN = ?, PASSWORD = ?, FULLNAME = ?, ADDRESS = ?, ACCOUNT= ? WHERE USERID = ? ");
 //            preparedStatement.setString(1, user.getLogin());
@@ -77,11 +78,17 @@ public class PaymentDaoImpl implements PaymentDAO {
             return true;
         } catch (Exception e) {
             connection.rollback();
+            new PaymentDaoImpl().deletePayment(payment);
             return false;
 
         } finally {
             DBConnection.close(connection, preparedStatement);
         }
+    }
+    @Override
+    public void deletePayment(Payment payment) {
+        // enter code here
+
     }
 
     @Override
@@ -103,6 +110,8 @@ public class PaymentDaoImpl implements PaymentDAO {
         }
         return null;
     }
+
+
 
     public Payment findPaymentByPaymentInfo(int userId, BigDecimal totalPrice) {
         Connection connection = null;

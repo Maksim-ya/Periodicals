@@ -16,4 +16,6 @@ public interface PaymentDAO {
     boolean addPayment(User user, List<Publication> publicationList,BigDecimal totalPrice) throws SQLException;
 
     Payment findPaymentById(int paymentId);
+
+    void deletePayment(Payment payment);
 }
