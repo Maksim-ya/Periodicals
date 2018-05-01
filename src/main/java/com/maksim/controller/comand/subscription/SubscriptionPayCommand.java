@@ -4,9 +4,11 @@ import com.maksim.controller.comand.Command;
 import com.maksim.controller.manager.ConfigurationManager;
 import com.maksim.controller.manager.MessageManager;
 import com.maksim.controller.manager.UserSession;
+import com.maksim.domain.Payment;
 import com.maksim.domain.Publication;
 import com.maksim.domain.Subscription;
 import com.maksim.domain.User;
+import com.maksim.model.impl.PaymentDaoImpl;
 import com.maksim.model.impl.SubscriptionDaoImpl;
 import com.maksim.model.impl.UserDaoImpl;
 
@@ -16,14 +18,16 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class SubscriptionPayCommand implements Command {
 
-//    private static final String PARAM_USER = "user";
-
     public String execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String page;
+        boolean paymentResult=false;
         HttpSession se = request.getSession(true);
         User user = (User) se.getAttribute(PARAM_USER);
         int publicationAllId = (Integer) se.getAttribute(PARAM_PUBLICATION_ALL_ID);
@@ -31,22 +35,39 @@ public class SubscriptionPayCommand implements Command {
 
         if (user.getAccount().compareTo(totalPrice) >= 0) {
 
-            BigDecimal priceUpdate = user.getAccount().subtract(totalPrice);
-            user.setAccount(priceUpdate);
-            new UserDaoImpl().updateUser(user);
-            Subscription subscription = new Subscription();
-            SubscriptionDaoImpl subscriptionDao = new SubscriptionDaoImpl();
+//            BigDecimal priceUpdate = user.getAccount().subtract(totalPrice);
+//            user.setAccount(priceUpdate);
+//            new UserDaoImpl().updateUser(user);
+//            Subscription subscription = new Subscription();
+//            SubscriptionDaoImpl subscriptionDao = new SubscriptionDaoImpl();
+            Payment payment= new Payment();
+            PaymentDaoImpl paymentDao = new PaymentDaoImpl();
+            List<Publication> publicationList =new ArrayList<Publication>();
             for (int i = 1; i <= publicationAllId; i++) {
                 Publication publication = (Publication) se.getAttribute(PARAM_PUBLICATION + i);
                 if (publication != null) {
-                    subscription.setPublication(publication);
-                    subscription.setUser(user);
-                    subscriptionDao.addSubscription(subscription);
+                    publicationList.add(publication);
+//                    subscription.setPublication(publication);
+//                    subscription.setUser(user);
+////                    subscriptionDao.addSubscription(subscription);
+//                    payment.setUser(user);
+//                    payment.setTotalPrice(totalPrice);
+//
                     se.setAttribute(PARAM_PUBLICATION + i, null);
                     se.setAttribute(PARAM_IS_PUBLICATION, null);
                 }
+                payment.setTotalPrice(totalPrice);
             }
+
+            try {
+              paymentResult = paymentDao.addPayment(payment, user , publicationList);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (paymentResult==true)
             page = UserSession.loadUserDataToSession(request, user);
+            else {request.setAttribute("errorMessage", MessageManager.getInstance().getMessage(MessageManager.SERVER_ERROR_MESSAGE));
+                page= ConfigurationManager.getInstance().getPage(ConfigurationManager.ERROR_PAGE_PATH);}
         }
 
 

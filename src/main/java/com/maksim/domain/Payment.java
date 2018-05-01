@@ -1,6 +1,7 @@
 package com.maksim.domain;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.Date;
 
 /**
@@ -8,20 +9,18 @@ import java.util.Date;
  */
 public class Payment {
     private int paymentId;
-    private Subscription subscriptionId;
-    private User userId;
+    private User user;
     private BigDecimal totalPrice;
-    private Date date;
+    private Timestamp dateTime;
 
     public Payment() {
     }
 
-    public Payment(int paymentId, Subscription subscriptionId, User userId, BigDecimal totalPrice, Date date) {
+    public Payment(int paymentId, User user, BigDecimal totalPrice, Timestamp dateTime) {
         this.paymentId = paymentId;
-        this.subscriptionId = subscriptionId;
-        this.userId = userId;
+        this.user = user;
         this.totalPrice = totalPrice;
-        this.date = date;
+        this.dateTime = dateTime;
     }
 
     @Override
@@ -32,20 +31,18 @@ public class Payment {
         Payment payment = (Payment) o;
 
         if (paymentId != payment.paymentId) return false;
-        if (!subscriptionId.equals(payment.subscriptionId)) return false;
-        if (!userId.equals(payment.userId)) return false;
+        if (!user.equals(payment.user)) return false;
         if (!totalPrice.equals(payment.totalPrice)) return false;
-        return date.equals(payment.date);
+        return dateTime.equals(payment.dateTime);
 
     }
 
     @Override
     public int hashCode() {
         int result = paymentId;
-        result = 31 * result + subscriptionId.hashCode();
-        result = 31 * result + userId.hashCode();
+        result = 31 * result + user.hashCode();
         result = 31 * result + totalPrice.hashCode();
-        result = 31 * result + date.hashCode();
+        result = 31 * result + dateTime.hashCode();
         return result;
     }
 
@@ -57,20 +54,12 @@ public class Payment {
         this.paymentId = paymentId;
     }
 
-    public Subscription getSubscriptionId() {
-        return subscriptionId;
+    public User getUser() {
+        return user;
     }
 
-    public void setSubscriptionId(Subscription subscriptionId) {
-        this.subscriptionId = subscriptionId;
-    }
-
-    public User getUserId() {
-        return userId;
-    }
-
-    public void setUserId(User userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public BigDecimal getTotalPrice() {
@@ -81,22 +70,21 @@ public class Payment {
         this.totalPrice = totalPrice;
     }
 
-    public Date getDate() {
-        return date;
+    public Date getDateTime() {
+        return dateTime;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateTime(Timestamp dateTime) {
+        this.dateTime = dateTime;
     }
 
     @Override
     public String toString() {
         return "Payment{" +
                 "paymentId=" + paymentId +
-                ", subscriptionId=" + subscriptionId +
-                ", userId=" + userId +
+                ", userId=" + user +
                 ", totalPrice=" + totalPrice +
-                ", date=" + date +
+                ", dateTime=" + dateTime +
                 '}';
     }
 }

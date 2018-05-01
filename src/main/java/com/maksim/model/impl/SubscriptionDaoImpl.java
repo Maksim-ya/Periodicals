@@ -1,5 +1,6 @@
 package com.maksim.model.impl;
 
+import com.maksim.domain.Payment;
 import com.maksim.domain.Publication;
 import com.maksim.domain.Subscription;
 import com.maksim.domain.User;
@@ -34,11 +35,6 @@ public class SubscriptionDaoImpl implements SubscriptionDAO {
             statement.setInt(1, userId);
             resultSet = statement.executeQuery();
             List<Subscription> list =  resultToList(resultSet);
-
-//            for (int i = 0; i <list.size() ; i++) {
-//                System.out.println(list.get(i));
-//            }
-
             return list;
         } catch (SQLException e) {
 //            LOGGER.error(e.getMessage());
@@ -55,10 +51,11 @@ public class SubscriptionDaoImpl implements SubscriptionDAO {
         try {
             connection =  DBConnection.getConnection();
             preparedStatement = connection.prepareStatement(
-                    "INSERT INTO subscriptions (publicationId, userId, isActive) VALUES (?,?,?)");
+                    "INSERT INTO subscriptions (publicationId, userId,paymentId, isActive) VALUES (?,?,?,?)");
             preparedStatement.setInt(1, subscription.getPublication().getPublicationId());
             preparedStatement.setInt(2, subscription.getUser().getUserId());
-            preparedStatement.setBoolean(3, true);
+            preparedStatement.setInt(3, subscription.getPayment().getPaymentId());
+            preparedStatement.setBoolean(4, true);
             preparedStatement.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -85,10 +82,12 @@ public class SubscriptionDaoImpl implements SubscriptionDAO {
         int subscriptionId = resultSet.getInt(1);
         int publicationId = resultSet.getInt(2);
         int userId = resultSet.getInt(3);
-        boolean isActive = resultSet.getBoolean(4);
+        int paymentId = resultSet.getInt(4);
+        boolean isActive = resultSet.getBoolean(5);
         Publication publication = new PublicationDaoImpl().findById(publicationId);
         User user = new UserDaoImpl().findUserById(userId);
-        return new Subscription(subscriptionId ,publication, user, isActive);
+        Payment payment = new PaymentDaoImpl().findPaymentById(paymentId);
+        return new Subscription(subscriptionId ,publication, user, payment, isActive);
     }
 
 }

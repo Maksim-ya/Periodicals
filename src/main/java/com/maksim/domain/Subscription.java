@@ -7,23 +7,21 @@ package com.maksim.domain;
  */
 public class Subscription {
     private int subscriptionId;
-//    private int publicationId;
     private Publication publication;
-    //    private int userId;
-
     private User user;
+    private Payment payment;
     private boolean isActive;
 
     public Subscription() {
     }
 
-    public Subscription(int subscriptionId, Publication publication, User user, boolean isActive) {
+    public Subscription(int subscriptionId, Publication publication, User user, Payment payment, boolean isActive) {
         this.subscriptionId = subscriptionId;
         this.publication = publication;
         this.user = user;
+        this.payment = payment;
         this.isActive = isActive;
     }
-
 
 
     public int getSubscriptionId() {
@@ -50,6 +48,14 @@ public class Subscription {
         this.user = user;
     }
 
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
+    }
+
     public boolean isActive() {
         return isActive;
     }
@@ -64,6 +70,7 @@ public class Subscription {
                 "subscriptionId=" + subscriptionId +
                 ", publication=" + publication +
                 ", user=" + user +
+                ", payment=" + payment +
                 ", isActive=" + isActive +
                 '}';
     }

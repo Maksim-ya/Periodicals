@@ -22,7 +22,7 @@ public class BasketCommand implements Command {
         String page;
         BigDecimal totalPrice = new BigDecimal("0.0");;
         HttpSession se = request.getSession(true);
-        User user = (User) se.getAttribute("user");
+        User user = (User) se.getAttribute(PARAM_USER);
 
 
 
@@ -48,7 +48,7 @@ public class BasketCommand implements Command {
 
             }
         }
-        se.setAttribute("totalPrice", totalPrice);
+        se.setAttribute(PARAM_TOTAL_PRICE, totalPrice);
 
 //        String publicationId = request.getParameter("publicationId");
 //
