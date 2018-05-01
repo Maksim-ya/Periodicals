@@ -40,7 +40,7 @@ public class SubscriptionPayCommand implements Command {
 //            new UserDaoImpl().updateUser(user);
 //            Subscription subscription = new Subscription();
 //            SubscriptionDaoImpl subscriptionDao = new SubscriptionDaoImpl();
-            Payment payment= new Payment();
+//            Payment payment= new Payment();
             PaymentDaoImpl paymentDao = new PaymentDaoImpl();
             List<Publication> publicationList =new ArrayList<Publication>();
             for (int i = 1; i <= publicationAllId; i++) {
@@ -56,11 +56,11 @@ public class SubscriptionPayCommand implements Command {
                     se.setAttribute(PARAM_PUBLICATION + i, null);
                     se.setAttribute(PARAM_IS_PUBLICATION, null);
                 }
-                payment.setTotalPrice(totalPrice);
+//                payment.setTotalPrice(totalPrice);
             }
 
             try {
-              paymentResult = paymentDao.addPayment(payment, user , publicationList);
+              paymentResult = paymentDao.addPayment(user , publicationList,totalPrice);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

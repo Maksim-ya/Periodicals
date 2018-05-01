@@ -18,45 +18,70 @@ import java.util.List;
  */
 public class PaymentDaoImpl implements PaymentDAO {
     @Override
-    public boolean addPayment(Payment payment, User user, List<Publication> publicationList) throws SQLException {
+    public boolean addPayment( User user, List<Publication> publicationList,BigDecimal totalPrice) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        int userId;
         try {
             connection =  DBConnection.getConnection();
-//            connection.setAutoCommit(false);
+            connection.setAutoCommit(false);
             preparedStatement = connection.prepareStatement(
                     "INSERT INTO payments (userId, totalPrice, dateTime) VALUES (?,?,?)");
-            int userId = user.getUserId();
+            userId = user.getUserId();
             preparedStatement.setInt(1, userId);
-            BigDecimal totalPrice = payment.getTotalPrice();
+//            BigDecimal totalPrice = payment.getTotalPrice();
             preparedStatement.setBigDecimal(2, totalPrice);
             Date date = new Date();
             Timestamp dateTime =new Timestamp(date.getTime());
             preparedStatement.setTimestamp(3, dateTime);
             preparedStatement.executeUpdate();
+            connection.commit();
+        } catch (SQLException e) {
+            connection.rollback();
+            return false;
 
+        } finally {
+//            DBConnection.close(connection, preparedStatement);
+        }
+            Payment payment = new PaymentDaoImpl().findPaymentByPaymentInfo(userId,totalPrice);
 
-            for (int i = 0; i <publicationList.size() ; i++) {
+        try {
+            connection.setAutoCommit(false);
+            for (int i = 0; i <publicationList.size(); i++) {
                 Subscription subscription = new Subscription();
                 subscription.setPublication(publicationList.get(i));
                 subscription.setUser(user);
-                subscription.setPayment(new PaymentDaoImpl().findPaymentIdByPayment(userId,totalPrice));
+                subscription.setPayment(payment);
                 new SubscriptionDaoImpl().addSubscription(subscription);
+//                preparedStatement = connection.prepareStatement(
+//                        "INSERT INTO subscriptions (publicationId, userId,paymentId, isActive) VALUES (?,?,?,?)");
+//                preparedStatement.setInt(1, subscription.getPublication().getPublicationId());
+//                preparedStatement.setInt(2, subscription.getUser().getUserId());
+//                preparedStatement.setInt(3, subscription.getPayment().getPaymentId());
+//                preparedStatement.setBoolean(4, true);
+//                preparedStatement.executeUpdate();
             }
-
-
-            BigDecimal priceUpdate = user.getAccount().subtract(payment.getTotalPrice());
+            BigDecimal priceUpdate = user.getAccount().subtract(totalPrice);
             user.setAccount(priceUpdate);
             new UserDaoImpl().updateUser(user);
-//            connection.commit();
+//            preparedStatement = connection.prepareStatement(
+//                    "UPDATE USERS  SET LOGIN = ?, PASSWORD = ?, FULLNAME = ?, ADDRESS = ?, ACCOUNT= ? WHERE USERID = ? ");
+//            preparedStatement.setString(1, user.getLogin());
+//            preparedStatement.setString(2,user.getPassword());
+//            preparedStatement.setString(3,user.getFullName());
+//            preparedStatement.setString(4,user.getAddress());
+//            preparedStatement.setBigDecimal(5,user.getAccount());
+//            preparedStatement.setInt(6,user.getUserId());
+//            preparedStatement.executeUpdate();
+            connection.commit();
             return true;
-        } catch (SQLException e) {
-//            connection.rollback();
+        } catch (Exception e) {
+            connection.rollback();
+            return false;
 
         } finally {
             DBConnection.close(connection, preparedStatement);
         }
-        return false;
     }
 
     @Override
@@ -79,7 +104,7 @@ public class PaymentDaoImpl implements PaymentDAO {
         return null;
     }
 
-    public Payment findPaymentIdByPayment(int userId, BigDecimal totalPrice) {
+    public Payment findPaymentByPaymentInfo(int userId, BigDecimal totalPrice) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
