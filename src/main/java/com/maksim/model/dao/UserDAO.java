@@ -11,8 +11,8 @@ public interface UserDAO {
 
     boolean addUser(User user);
 
-//    void updateUser(User user);
-    void updateUser(User user,Connection connection);
+    void updateUser(User user);
+//    void updateUser(User user,Connection connection);
 
     void removeUser(int id);
 

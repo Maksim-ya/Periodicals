@@ -18,13 +18,14 @@ import java.util.List;
  */
 public class PaymentDaoImpl implements PaymentDAO {
     @Override
-    public boolean addPayment( User user, List<Publication> publicationList,BigDecimal totalPrice) throws SQLException {
+    public boolean addPayment(User user, List<Publication> publicationList, BigDecimal totalPrice) throws SQLException {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
+        Payment payment = new Payment();
         int userId;
-//        try {
-            connection =  DBConnection.getConnection();
-//            connection.setAutoCommit(false);
+        try {
+            connection = DBConnection.getConnection();
+//            connection.setTransactionIsolation(1);
             preparedStatement = connection.prepareStatement(
                     "INSERT INTO payments (userId, totalPrice, dateTime) VALUES (?,?,?)");
             userId = user.getUserId();
@@ -32,52 +33,58 @@ public class PaymentDaoImpl implements PaymentDAO {
 //            BigDecimal totalPrice = payment.getTotalPrice();
             preparedStatement.setBigDecimal(2, totalPrice);
             Date date = new Date();
-            Timestamp dateTime =new Timestamp(date.getTime());
+            Timestamp dateTime = new Timestamp(date.getTime());
+            System.out.println(dateTime);
+            dateTime.setNanos(0);
+            System.out.println(dateTime);
             preparedStatement.setTimestamp(3, dateTime);
             preparedStatement.executeUpdate();
 //            connection.commit();
-//        } catch (SQLException e) {
-//            connection.rollback();
-//            return false;
+//            System.out.println(dateTime.getNanos());
+//            if (dateTime.getNanos()>499999999)
+//                dateTime.setNanos(0);
+//            else {dateTime.setSeconds(dateTime.getSeconds()+1);}
 
-//        } finally {
-////            DBConnection.close(connection, preparedStatement);
-//        }
-            Payment payment = new PaymentDaoImpl().findPaymentByPaymentInfo(userId,totalPrice);
+            payment = new PaymentDaoImpl().findPaymentByPaymentInfo(userId, totalPrice, dateTime);
+//             payment=new PaymentDaoImpl().exper(1);
 
-        try {
-            connection =  DBConnection.getConnection();
+            System.out.println(payment);
+
+//        try {
+//            connection =  DBConnection.getConnection();
+//            connection.setAutoCommit(false);
             connection.setAutoCommit(false);
-            for (int i = 0; i <publicationList.size(); i++) {
+            for (int i = 0; i < publicationList.size(); i++) {
                 Subscription subscription = new Subscription();
                 subscription.setPublication(publicationList.get(i));
                 subscription.setUser(user);
                 subscription.setPayment(payment);
-                new SubscriptionDaoImpl().addSubscription(subscription, connection);
-//                preparedStatement = connection.prepareStatement(
-//                        "INSERT INTO subscriptions (publicationId, userId,paymentId, isActive) VALUES (?,?,?,?)");
-//                preparedStatement.setInt(1, subscription.getPublication().getPublicationId());
-//                preparedStatement.setInt(2, subscription.getUser().getUserId());
-//                preparedStatement.setInt(3, subscription.getPayment().getPaymentId());
-//                preparedStatement.setBoolean(4, true);
-//                preparedStatement.executeUpdate();
+//                new SubscriptionDaoImpl().addSubscription(subscription);
+                preparedStatement = connection.prepareStatement(
+                        "INSERT INTO subscriptions (publicationId, userId,paymentId, isActive) VALUES (?,?,?,?)");
+                preparedStatement.setInt(1, subscription.getPublication().getPublicationId());
+                preparedStatement.setInt(2, subscription.getUser().getUserId());
+                preparedStatement.setInt(3, subscription.getPayment().getPaymentId());
+                preparedStatement.setBoolean(4, true);
+                preparedStatement.executeUpdate();
             }
             BigDecimal priceUpdate = user.getAccount().subtract(totalPrice);
             user.setAccount(priceUpdate);
-            new UserDaoImpl().updateUser(user, connection);
-//            preparedStatement = connection.prepareStatement(
-//                    "UPDATE USERS  SET LOGIN = ?, PASSWORD = ?, FULLNAME = ?, ADDRESS = ?, ACCOUNT= ? WHERE USERID = ? ");
-//            preparedStatement.setString(1, user.getLogin());
-//            preparedStatement.setString(2,user.getPassword());
-//            preparedStatement.setString(3,user.getFullName());
-//            preparedStatement.setString(4,user.getAddress());
-//            preparedStatement.setBigDecimal(5,user.getAccount());
-//            preparedStatement.setInt(6,user.getUserId());
-//            preparedStatement.executeUpdate();
+//            new UserDaoImpl().updateUser(user);
+            preparedStatement = connection.prepareStatement(
+                    "UPDATE USERS  SET LOGIN = ?, PASSWORD = ?, FULLNAME = ?, ADDRESS = ?, ACCOUNT= ? WHERE USERID = ? ");
+            preparedStatement.setString(1, user.getLogin());
+            preparedStatement.setString(2, user.getPassword());
+            preparedStatement.setString(3, user.getFullName());
+            preparedStatement.setString(4, user.getAddress());
+            preparedStatement.setBigDecimal(5, user.getAccount());
+            preparedStatement.setInt(6, user.getUserId());
+            preparedStatement.executeUpdate();
             connection.commit();
             return true;
         } catch (Exception e) {
             connection.rollback();
+//            System.out.println("eeeeeeerrrr");
             new PaymentDaoImpl().deletePayment(payment);
             return false;
 
@@ -85,10 +92,22 @@ public class PaymentDaoImpl implements PaymentDAO {
             DBConnection.close(connection, preparedStatement);
         }
     }
+
     @Override
     public void deletePayment(Payment payment) {
-        // enter code here
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = DBConnection.getConnection();
+            preparedStatement = connection.prepareStatement(
+                    "DELETE FROM payments WHERE paymentId=?");
+            preparedStatement.setInt(1, payment.getPaymentId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
 
+        } finally {
+            DBConnection.close(connection, preparedStatement);
+        }
     }
 
     @Override
@@ -112,18 +131,17 @@ public class PaymentDaoImpl implements PaymentDAO {
     }
 
 
-
-    public Payment findPaymentByPaymentInfo(int userId, BigDecimal totalPrice) {
+    public Payment findPaymentByPaymentInfo(int userId, BigDecimal totalPrice, Timestamp dateTime) {
         Connection connection = null;
         PreparedStatement preparedStatement = null;
         ResultSet resultSet = null;
         try {
             connection = DBConnection.getConnection();
             preparedStatement = connection.prepareStatement(
-                    "SELECT * FROM PAYMENTS WHERE USERID = ? AND TOTALPRICE=? ");
-            preparedStatement.setInt(1,userId);
-            preparedStatement.setBigDecimal(2,totalPrice);
-//            preparedStatement.setTimestamp(3,dateTime);
+                    "SELECT * FROM PAYMENTS WHERE USERID = ? AND TOTALPRICE=? AND DATETIME =?");
+            preparedStatement.setInt(1, userId);
+            preparedStatement.setBigDecimal(2, totalPrice);
+            preparedStatement.setTimestamp(3, dateTime);
             resultSet = preparedStatement.executeQuery();
             return createPaymentFromResult(resultSet);
         } catch (SQLException e) {
@@ -134,17 +152,36 @@ public class PaymentDaoImpl implements PaymentDAO {
         return null;
     }
 
-    private Payment createPaymentFromResult(ResultSet resultSet)throws SQLException {
+    private Payment createPaymentFromResult(ResultSet resultSet) throws SQLException {
         if (resultSet.isBeforeFirst()) resultSet.next();
 
         int paymentId = resultSet.getInt(1);
         int userId = resultSet.getInt(2);
-        User user  = new UserDaoImpl().findUserById(userId);
-        BigDecimal totalPrice =resultSet.getBigDecimal(3);
+        User user = new UserDaoImpl().findUserById(userId);
+        BigDecimal totalPrice = resultSet.getBigDecimal(3);
         Timestamp dateTime = resultSet.getTimestamp(4);
-        Payment payment = new Payment(paymentId,user,totalPrice,dateTime);
+        Payment payment = new Payment(paymentId, user, totalPrice, dateTime);
 //        System.out.println(payment);
-        return payment ;
+        return payment;
+    }
+
+    public Payment exper(int i) {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet resultSet = null;
+        try {
+            connection = DBConnection.getConnection();
+            preparedStatement = connection.prepareStatement(
+                    "SELECT * FROM PAYMENTS WHERE USERID = ?");
+            preparedStatement.setInt(1, i);
+            resultSet = preparedStatement.executeQuery();
+            return createPaymentFromResult(resultSet);
+        } catch (SQLException e) {
+//            LOGGER.error(e.getMessage());
+        } finally {
+            DBConnection.close(connection, preparedStatement, resultSet);
+        }
+        return null;
     }
 
 }

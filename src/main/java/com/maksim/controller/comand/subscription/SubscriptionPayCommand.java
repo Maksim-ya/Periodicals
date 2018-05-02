@@ -63,11 +63,15 @@ public class SubscriptionPayCommand implements Command {
               paymentResult = paymentDao.addPayment(user , publicationList,totalPrice);
             } catch (SQLException e) {
                 e.printStackTrace();
+                request.setAttribute("errorMessage", MessageManager.getInstance().getMessage(MessageManager.SERVER_ERROR_MESSAGE));
+                page= ConfigurationManager.getInstance().getPage(ConfigurationManager.ERROR_PAGE_PATH);
             }
             if (paymentResult==true)
             page = UserSession.loadUserDataToSession(request, user);
-            else {request.setAttribute("errorMessage", MessageManager.getInstance().getMessage(MessageManager.SERVER_ERROR_MESSAGE));
-                page= ConfigurationManager.getInstance().getPage(ConfigurationManager.ERROR_PAGE_PATH);}
+            else {
+//                request.setAttribute("errorMessage", MessageManager.getInstance().getMessage(MessageManager.SERVER_ERROR_MESSAGE));
+                page= ConfigurationManager.getInstance().getPage(ConfigurationManager.ERROR_PAGE_PATH);
+            }
         }
 
 
